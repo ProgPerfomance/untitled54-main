@@ -7,14 +7,28 @@ import 'package:myapp/feature/registration/register/widgets/registration_button.
 import 'package:myapp/ui/colors.dart';
 import 'package:myapp/ui/text_style.dart';
 
-class AuthForCustomer extends StatelessWidget {
-  const AuthForCustomer({super.key});
+class AuthForCustomer extends StatefulWidget {
+  AuthForCustomer({super.key});
+
+  @override
+  State<AuthForCustomer> createState() => _AuthForCustomerState();
+}
+
+class _AuthForCustomerState extends State<AuthForCustomer> {
+  final TextEditingController tName = TextEditingController(),
+      passwordController = TextEditingController(),
+      email = TextEditingController(),
+      lastName = TextEditingController();
+
+  onSubmit() {
+    Navigator.pushNamed(context, '/home');
+  }
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final controller = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -35,13 +49,25 @@ class AuthForCustomer extends StatelessWidget {
                     .copyWith(color: MyColors.black),
               ),
               SizedBox(height: height * 0.09),
-               AuthTextField(title: emailOrNumber, controller: controller,),
+              AuthTextField(
+                title: emailOrNumber,
+                controller: email,
+              ),
               SizedBox(height: height * 0.02),
-               AuthTextField(title: password, controller: controller,),
+              AuthTextField(
+                title: password,
+                controller: passwordController,
+              ),
               SizedBox(height: height * 0.02),
-               AuthTextField(title: name, controller: controller,),
+              AuthTextField(
+                title: name,
+                controller: tName,
+              ),
               SizedBox(height: height * 0.02),
-               AuthTextField(title: serName, controller: controller,),
+              AuthTextField(
+                title: serName,
+                controller: lastName,
+              ),
               SizedBox(height: height * 0.07),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +81,10 @@ class AuthForCustomer extends StatelessWidget {
                 ],
               ),
               SizedBox(height: height * 0.03),
-              const AuthButton(title: reg),
+              AuthButton(
+                title: reg,
+                onTap: onSubmit,
+              ),
             ],
           ),
         ),

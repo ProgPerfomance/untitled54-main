@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/auth',
       routes: {
         '/auth': (context) => const RegistrationScreen(),
-        '/auth_customer': (context) => const AuthForCustomer(),
+        '/auth_customer': (context) => AuthForCustomer(),
         '/auth_carrier': (context) => const AuthForCarrier(),
         '/home': (context) => const HomeScreen(),
         '/name_of_order': (context) => const NameOfOrder(),

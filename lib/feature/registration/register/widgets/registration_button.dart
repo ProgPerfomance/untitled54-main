@@ -3,9 +3,11 @@ import 'package:myapp/ui/colors.dart';
 import 'package:myapp/ui/text_style.dart';
 
 class AuthButton extends StatelessWidget {
+  final VoidCallback? onTap;
   const AuthButton({
     super.key,
     required this.title,
+    this.onTap,
   });
 
   final String title;
@@ -13,9 +15,7 @@ class AuthButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, '/home');
-      },
+      onTap: onTap,
       child: Container(
         height: MediaQuery.of(context).size.height * 0.09,
         width: MediaQuery.of(context).size.height * 0.3,

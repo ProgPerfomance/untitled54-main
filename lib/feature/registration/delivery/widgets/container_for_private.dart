@@ -3,33 +3,39 @@ import 'package:myapp/constants/liam_texts.dart';
 import 'package:myapp/feature/registration/register/widgets/auth_text_field.dart';
 
 class ContainerForPrivate extends StatelessWidget {
-  const ContainerForPrivate({super.key});
+  final TextEditingController tName, passwordController, email, lastName;
+  const ContainerForPrivate({
+    super.key,
+    required this.tName,
+    required this.passwordController,
+    required this.email,
+    required this.lastName,
+  });
 
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final controller = TextEditingController();
     return Column(
       children: [
         SizedBox(height: height * 0.06),
-         AuthTextField(
+        AuthTextField(
           title: emailOrNumber,
-          controller: controller,
+          controller: email,
         ),
         SizedBox(height: height * 0.02),
-         AuthTextField(
+        AuthTextField(
           title: password,
-          controller: controller,
+          controller: passwordController,
         ),
         SizedBox(height: height * 0.02),
-         AuthTextField(
+        AuthTextField(
           title: name,
-          controller: controller,
+          controller: tName,
         ),
         SizedBox(height: height * 0.02),
-         AuthTextField(
+        AuthTextField(
           title: serName,
-          controller: controller,
+          controller: lastName,
         ),
       ],
     );
