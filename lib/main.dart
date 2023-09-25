@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/start',
+      initialRoute: '/auth',
       routes: {
         '/start': (context) => const StartScreen(),
         '/signin': (context) => const SignInScreen(),

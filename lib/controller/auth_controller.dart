@@ -35,11 +35,14 @@ class AuthDeliveryController {
   final String email;
   final String name;
   final String? lastname;
-  AuthDeliveryController(
-      {required this.password,
-      required this.email,
-      required this.name,
-      this.lastname});
+  final bool isCompany;
+  AuthDeliveryController({
+    required this.password,
+    required this.email,
+    required this.name,
+    this.lastname,
+    required this.isCompany,
+  });
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   void signUpUser() async {
@@ -51,7 +54,8 @@ class AuthDeliveryController {
         'uid': user!.uid,
         'email': email,
         'firstname': name,
-        'lastname': lastname
+        'lastname': lastname,
+        'isCompany': isCompany,
       });
     } on FirebaseAuthException {
       rethrow;
