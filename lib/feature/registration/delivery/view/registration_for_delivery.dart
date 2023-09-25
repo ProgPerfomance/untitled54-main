@@ -35,13 +35,25 @@ class _AuthForCarrierState extends State<AuthForCarrier> {
   }
 
   onSubmit() async {
-    AuthDeliveryController(
-      password: tPassword.text,
-      email: tEmail.text,
-      name: isCompany ? tCompany.text : tName.text,
-      lastname: tLastName.text,
-      isCompany: isCompany,
-    ).signUpUser();
+    try {
+      await AuthDeliveryController(
+        password: tPassword.text,
+        email: tEmail.text,
+        name: isCompany ? tCompany.text : tName.text,
+        lastname: tLastName.text,
+        isCompany: isCompany,
+      ).signUpUser();
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+        SnackBar(
+          behavior: SnackBarBehavior.floating,
+          content: Text(
+            e.code,
+          ),
+        ),
+      );
+      return;
+    }
     Navigator.pushNamed(context, '/home');
   }
 

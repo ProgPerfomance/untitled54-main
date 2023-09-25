@@ -41,7 +41,7 @@ class AuthDeliveryController {
   });
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  void signUpUser() async {
+  Future<void> signUpUser() async {
     UserCredential userCredentialemail = await _auth
         .createUserWithEmailAndPassword(email: email, password: password);
     User? user = userCredentialemail.user;
