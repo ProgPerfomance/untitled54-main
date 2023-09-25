@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/icon_path.dart';
 import 'package:myapp/constants/liam_texts.dart';
+import 'package:myapp/controller/auth_controller.dart';
 import 'package:myapp/feature/registration/register/widgets/auth_text_field.dart';
 import 'package:myapp/feature/registration/register/widgets/check_button.dart';
 import 'package:myapp/feature/registration/register/widgets/registration_button.dart';
@@ -21,6 +22,12 @@ class _AuthForCustomerState extends State<AuthForCustomer> {
       lastName = TextEditingController();
 
   onSubmit() {
+    AuthBuyerController(
+            password: passwordController.text,
+            email: email.text,
+            name: tName.text,
+            lastname: lastName.text)
+        .signUpUser();
     Navigator.pushNamed(context, '/home');
   }
 

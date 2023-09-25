@@ -7,6 +7,7 @@ import 'package:myapp/feature/registration/register/widgets/registration_contain
 
 import '../../../../ui/colors.dart';
 import '../../../../ui/text_style.dart';
+
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});
   @override
@@ -38,7 +39,6 @@ class RegistrationScreen extends StatelessWidget {
               AuthContainer(
                 title: imCutomer,
                 onTap: () {
-                  AuthBuyerController(password: 'fkfgf11', email: 'jekcatpopov@gmail.com', name: 'fff', lastname: 'ffff').signUpUser();
                   Navigator.pushNamed(context, '/auth_customer');
                 },
               ),
