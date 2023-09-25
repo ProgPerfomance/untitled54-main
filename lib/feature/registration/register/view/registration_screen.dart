@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/icon_path.dart';
 import 'package:myapp/constants/liam_texts.dart';
+import 'package:myapp/controller/auth_controller.dart';
 import 'package:myapp/feature/registration/register/widgets/registration_button.dart';
 import 'package:myapp/feature/registration/register/widgets/registration_container.dart';
 
@@ -37,6 +38,7 @@ class RegistrationScreen extends StatelessWidget {
               AuthContainer(
                 title: imCutomer,
                 onTap: () {
+                  AuthBuyerController(password: 'fkfgf11', email: 'jekcatpopov@gmail.com', name: 'fff', lastname: 'ffff').signUpUser();
                   Navigator.pushNamed(context, '/auth_customer');
                 },
               ),
