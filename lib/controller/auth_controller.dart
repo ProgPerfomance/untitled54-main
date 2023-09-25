@@ -18,10 +18,10 @@ class AuthBuyerController {
         .createUserWithEmailAndPassword(email: email, password: password);
     User? user = userCredentialemail.user;
     _firestore.collection('buyers').doc(user!.uid).set({
-      'uid': 'ffffff',
-      'email': 'ddjfsdds',
-      'firstname': 'ddddd',
-      'lastname': 'dsfjsfs'
+      'uid': user!.uid,
+      'email': email,
+      'firstname': name,
+      'lastname': lastname
     });
   }
 }
