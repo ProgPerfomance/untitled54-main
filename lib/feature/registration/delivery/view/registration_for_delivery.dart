@@ -39,7 +39,7 @@ class _AuthForCarrierState extends State<AuthForCarrier> {
       AuthDeliveryController(
               password: tPassword.text,
               email: tEmail.text,
-              name: tName.text,
+              name: isCompany ? tCompany.text : tName.text,
               lastname: tLastName.text)
           .signUpUser();
       Navigator.pushNamed(context, '/home');
