@@ -11,6 +11,9 @@ import 'package:myapp/feature/registration/register/view/registration_screen.dar
 import 'package:myapp/feature/setting/setting.dart';
 import 'package:myapp/firebase_options.dart';
 
+import 'feature/signin/sign_in_screen.dart';
+import 'feature/start_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,8 +36,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/auth',
+      initialRoute: '/start',
       routes: {
+        '/start': (context) => const StartScreen(),
+        '/signin': (context) => const SignInScreen(),
         '/auth': (context) => const RegistrationScreen(),
         '/auth_customer': (context) => AuthForCustomer(),
         '/auth_carrier': (context) => const AuthForCarrier(),
