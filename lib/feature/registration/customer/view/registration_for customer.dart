@@ -23,23 +23,13 @@ class _AuthForCustomerState extends State<AuthForCustomer> {
       lastName = TextEditingController();
 
   onSubmit() {
-    try {
-      AuthBuyerController(
-              password: passwordController.text,
-              email: email.text,
-              name: tName.text,
-              lastname: lastName.text)
-          .signUpUser();
-      Navigator.pushNamed(context, '/home');
-    } on FirebaseAuthException catch (e) {
-      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
-        SnackBar(
-          content: Text(e.code),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
-      return;
-    }
+    AuthBuyerController(
+            password: passwordController.text,
+            email: email.text,
+            name: tName.text,
+            lastname: lastName.text)
+        .signUpUser();
+    Navigator.pushNamed(context, '/home');
   }
 
   @override
