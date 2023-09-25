@@ -1,26 +1,103 @@
 {
   "project_info": {
-    "project_number": "42806266503",
-    "project_id": "transport-7ee79",
-    "storage_bucket": "transport-7ee79.appspot.com"
+    "project_number": "354479704196",
+    "project_id": "evaranshark-test-apps",
+    "storage_bucket": "evaranshark-test-apps.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:42806266503:android:d8e1905ad8ed5eda7bc622",
+        "mobilesdk_app_id": "1:354479704196:android:14d03dafa445be19535ad1",
         "android_client_info": {
-          "package_name": "com.example.untitled54"
+          "package_name": "com.example.evaranshark_weathercast"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "354479704196-0vmf63julk6c3aae501aktt0paemjole.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evaranshark_weathercast",
+            "certificate_hash": "76040b73163bb3b97d1a0962e853a51c10da6b62"
+          }
+        },
+        {
+          "client_id": "354479704196-cqftavu9neik6il0mvvtcthtrl7i4p6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evaranshark_weathercast",
+            "certificate_hash": "50d38c18d81cad73ed171fbfcd2ee1ec14eb57ac"
+          }
+        },
+        {
+          "client_id": "354479704196-n6qsf9fncidtbi5nmhub50fhjh7qkicg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evaranshark_weathercast",
+            "certificate_hash": "2b79271e8e635f108f9ac51613e5e34d2f120355"
+          }
+        },
+        {
+          "client_id": "354479704196-lg7arnbi1ng7g4g8o6vv6v4050750ukl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlaStQ8-Z8TlIWtxpnxtjD1pXMzGUz7A0"
+          "current_key": "AIzaSyDzZIYLoeTpeonqvO0U-A6ATa_8pPu-7us"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354479704196-lg7arnbi1ng7g4g8o6vv6v4050750ukl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "354479704196-kmh906lesja2rehci6lre57ot5a1fhcq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evaransharkWeathercast.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:354479704196:android:ac99e996f0111943535ad1",
+        "android_client_info": {
+          "package_name": "com.example.untitled54"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "354479704196-lg7arnbi1ng7g4g8o6vv6v4050750ukl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzZIYLoeTpeonqvO0U-A6ATa_8pPu-7us"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "354479704196-lg7arnbi1ng7g4g8o6vv6v4050750ukl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "354479704196-kmh906lesja2rehci6lre57ot5a1fhcq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evaransharkWeathercast.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }
