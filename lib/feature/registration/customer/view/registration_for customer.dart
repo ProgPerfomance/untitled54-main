@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/icon_path.dart';
 import 'package:myapp/constants/liam_texts.dart';
@@ -22,13 +23,23 @@ class _AuthForCustomerState extends State<AuthForCustomer> {
       lastName = TextEditingController();
 
   onSubmit() {
-    AuthBuyerController(
-            password: passwordController.text,
-            email: email.text,
-            name: tName.text,
-            lastname: lastName.text)
-        .signUpUser();
-    Navigator.pushNamed(context, '/home');
+    try {
+      AuthBuyerController(
+              password: passwordController.text,
+              email: email.text,
+              name: tName.text,
+              lastname: lastName.text)
+          .signUpUser();
+      Navigator.pushNamed(context, '/home');
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+        SnackBar(
+          content: Text(e.code),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
   }
 
   @override

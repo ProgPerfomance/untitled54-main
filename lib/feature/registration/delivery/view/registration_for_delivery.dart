@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/icon_path.dart';
 import 'package:myapp/constants/liam_texts.dart';
+import 'package:myapp/controller/auth_controller.dart';
 import 'package:myapp/feature/registration/delivery/models/user_model.dart';
 import 'package:myapp/feature/registration/delivery/widgets/container_for_company.dart';
 import 'package:myapp/feature/registration/delivery/widgets/container_for_private.dart';
@@ -21,25 +22,28 @@ class AuthForCarrier extends StatefulWidget {
 
 class _AuthForCarrierState extends State<AuthForCarrier> {
   bool isCompany = false;
-  late TextEditingController tname, tlastName, tcompany, tpassword, temail;
+  late TextEditingController tName, tLastName, tCompany, tPassword, tEmail;
 
   @override
   void initState() {
     super.initState();
-    tname = TextEditingController();
-    tlastName = TextEditingController();
-    tcompany = TextEditingController();
-    tpassword = TextEditingController();
-    temail = TextEditingController();
+    tName = TextEditingController();
+    tLastName = TextEditingController();
+    tCompany = TextEditingController();
+    tPassword = TextEditingController();
+    tEmail = TextEditingController();
   }
 
   onSubmit() async {
-    UserCredential? credentials;
     try {
-      credentials = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: temail.text, password: tpassword.text);
+      AuthDeliveryController(
+              password: tPassword.text,
+              email: tEmail.text,
+              name: tName.text,
+              lastname: tLastName.text)
+          .signUpUser();
+      Navigator.pushNamed(context, '/home');
     } on FirebaseAuthException catch (e) {
-      Debugger.print(e.code);
       ScaffoldMessenger.maybeOf(context)?.showSnackBar(
         SnackBar(
           content: Text(e.code),
@@ -48,8 +52,6 @@ class _AuthForCarrierState extends State<AuthForCarrier> {
       );
       return;
     }
-    Debugger.print(credentials.user?.email);
-    Navigator.pushNamed(context, '/home');
   }
 
   @override
@@ -78,16 +80,16 @@ class _AuthForCarrierState extends State<AuthForCarrier> {
               ),
               isCompany
                   ? ContainerForCompany(
-                      company: tcompany,
-                      email: temail,
-                      passwordController: tpassword,
-                      field4: tcompany,
+                      company: tCompany,
+                      email: tEmail,
+                      passwordController: tPassword,
+                      field4: tCompany,
                     )
                   : ContainerForPrivate(
-                      tName: tname,
-                      lastName: tlastName,
-                      email: temail,
-                      passwordController: tpassword,
+                      tName: tName,
+                      lastName: tLastName,
+                      email: tEmail,
+                      passwordController: tPassword,
                     ),
               SizedBox(height: height * 0.03),
               Row(

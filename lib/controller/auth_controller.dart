@@ -14,14 +14,47 @@ class AuthBuyerController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   void signUpUser() async {
-    UserCredential userCredentialemail = await _auth
-        .createUserWithEmailAndPassword(email: email, password: password);
-    User? user = userCredentialemail.user;
-    _firestore.collection('buyers').doc(user!.uid).set({
-      'uid': user!.uid,
-      'email': email,
-      'firstname': name,
-      'lastname': lastname
-    });
+    try {
+      UserCredential userCredentialemail = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      User? user = userCredentialemail.user;
+      _firestore.collection('buyers').doc(user!.uid).set({
+        'uid': user!.uid,
+        'email': email,
+        'firstname': name,
+        'lastname': lastname
+      });
+    } on FirebaseAuthException {
+      rethrow;
+    }
+  }
+}
+
+class AuthDeliveryController {
+  final String password;
+  final String email;
+  final String name;
+  final String? lastname;
+  AuthDeliveryController(
+      {required this.password,
+      required this.email,
+      required this.name,
+      this.lastname});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  void signUpUser() async {
+    try {
+      UserCredential userCredentialemail = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      User? user = userCredentialemail.user;
+      _firestore.collection('delivery').doc(user!.uid).set({
+        'uid': user!.uid,
+        'email': email,
+        'firstname': name,
+        'lastname': lastname
+      });
+    } on FirebaseAuthException {
+      rethrow;
+    }
   }
 }
