@@ -1,0 +1,16 @@
+const String laim = 'ЛАИМ';
+const String registration = 'Регистрация';
+const String emailOrNumber = 'Эл. почта или номер телефона';
+const String password = 'Пароль';
+const String name = 'Имя';
+const String serName = 'Фамилия';
+const String nameOfCompany = 'Название компании';
+const String imCutomer = 'Я заказчик';
+const String imCarrier = 'Я перевозчик';
+const String next = 'Продолжить';
+const String regForCustomer = 'Регистрация\n  Заказчика';
+const String regForCarrier = 'Регистрация\nперевозчика';
+const String reg = 'Зарегистриваться';
+const String imVip = 'Я частник';
+const String company = 'Мы компания';
+const String agree = 'я принимаю соглашение пользоваля';
