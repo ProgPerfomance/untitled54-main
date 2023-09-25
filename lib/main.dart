@@ -1,24 +1,11 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/feature/artists_name/artists_name.dart';
-import 'package:myapp/feature/home/home.dart';
-import 'package:myapp/feature/make_order/make_order.dart';
-import 'package:myapp/feature/name_of_order/name_of_order.dart';
-import 'package:myapp/feature/orders/orders.dart';
-import 'package:myapp/feature/registration/customer/view/registration_for%20customer.dart';
-import 'package:myapp/feature/registration/delivery/view/registration_for_delivery.dart';
-import 'package:myapp/feature/registration/register/view/registration_screen.dart';
-import 'package:myapp/feature/setting/setting.dart';
-import 'package:myapp/firebase_options.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/views/change_price_screen.dart';
 
-import 'feature/signin/sign_in_screen.dart';
-import 'feature/start_screen.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+import '/views/views.dart';
+
+void main() {
   runApp(const MyApp());
 }
 
@@ -28,29 +15,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-        ),
-        useMaterial3: true,
-      ),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/auth',
+      title: 'ЛАИМ',
+      theme: ThemeData(
+        textTheme: Theme.of(context).textTheme.apply(
+              bodyColor: const Color(0xffdfdee4),
+              displayColor: const Color(0xffdfdee4),
+              fontFamily:
+                  GoogleFonts.mooli(color: const Color(0xff818085)).fontFamily,
+            ),
+        useMaterial3: true,
+        inputDecorationTheme: const InputDecorationTheme(
+          labelStyle: TextStyle(color: Color(0xffdfdee4)),
+        ),
+      ),
+      home: const HomeScreen(),
       routes: {
-        '/start': (context) => const StartScreen(),
-        '/signin': (context) => const SignInScreen(),
-        '/auth': (context) => const RegistrationScreen(),
-        '/auth_customer': (context) => AuthForCustomer(),
-        '/auth_carrier': (context) => const AuthForCarrier(),
-        '/home': (context) => const HomeScreen(),
-        '/name_of_order': (context) => const NameOfOrder(),
-        '/orders': (context) => const Orders(),
-        '/setting': (context) => const Setting(),
-        '/artists_name': (context) => const ArtistName(),
-        '/make_order': (context) => const MakeOrder(),
+        // '': (context) => const HomeScreen(),
+        '/orders': (context) => const OrdersScreen(),
+        '/my_orders': (context) => const MyOrdersScreen(),
+        '/settings': (context) => const SettingsScreen(),
+        '/order-info': (context) => const OrderInfoScreen(),
+        '/contractor-info': (context) => const ContractorInfoScreen(),
+        '/client-info': (context) => const ClientInfoScreen(),
+        '/create-Order': (context) => CreateOrderScreen(),
+        '/authorization': (context) => AuthorizationScreen(),
+        '/registration-start': (context) => const RegistrationStartScreen(),
+        '/registration-client': (context) => RegistrationClientScreen(),
+        '/change_price': (context) => const ChangePrice(),
+        '/registration-contactor-start': (context) =>
+            const RegistrationContactorStartScreen(),
+        '/registration-owner-contactor-start': (context) =>
+            RegistrationOwnerContractorScreen(),
+        '/registration-company-contactor': (context) =>
+            RegistrationCompanyContractorScreen(),
       },
-      home: const RegistrationScreen(),
     );
   }
 }
