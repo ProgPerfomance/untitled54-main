@@ -80,3 +80,9 @@ TextStyle SafeGoogleFont(
     );
   }
 }
+
+class Debugger {
+  static void print(String? message) {
+    debugPrint("[Lime] $message");
+  }
+}

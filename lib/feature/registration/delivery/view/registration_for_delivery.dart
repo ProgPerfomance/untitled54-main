@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/constants/icon_path.dart';
 import 'package:myapp/constants/liam_texts.dart';
@@ -9,6 +10,7 @@ import 'package:myapp/feature/registration/register/widgets/check_button.dart';
 import 'package:myapp/feature/registration/register/widgets/registration_button.dart';
 import 'package:myapp/ui/colors.dart';
 import 'package:myapp/ui/text_style.dart';
+import 'package:myapp/utils.dart';
 
 class AuthForCarrier extends StatefulWidget {
   const AuthForCarrier({super.key});
@@ -31,7 +33,22 @@ class _AuthForCarrierState extends State<AuthForCarrier> {
     temail = TextEditingController();
   }
 
-  onSubmit() {
+  onSubmit() async {
+    UserCredential? credentials;
+    try {
+      credentials = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: temail.text, password: tpassword.text);
+    } on FirebaseAuthException catch (e) {
+      Debugger.print(e.code);
+      ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+        SnackBar(
+          content: Text(e.code),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+    Debugger.print(credentials.user?.email);
     Navigator.pushNamed(context, '/home');
   }
 
