@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/constants/liam_texts.dart';
+import 'package:myapp/controller/auth_controller.dart';
 
 class RegistrationClientScreen extends StatefulWidget {
   RegistrationClientScreen({
@@ -24,9 +27,31 @@ class RegistrationClientScreen extends StatefulWidget {
 }
 
 class _RegistrationClientScreenState extends State<RegistrationClientScreen> {
-  void newClient() {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  void newClient() async {
     if (widget.isChecked) {
-      Navigator.of(context).pushReplacementNamed('/orders');
+      try {
+        await AuthBuyerController(
+          password: passwordController.text,
+          email: emailController.text,
+          name: nameController.text,
+          lastname: lastNameController.text,
+        ).signUpUser();
+        Navigator.of(context).pushReplacementNamed('/orders');
+      } on FirebaseAuthException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.code,
+            ),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return;
+      }
     }
   }
 
@@ -126,12 +151,14 @@ class _RegistrationClientScreenState extends State<RegistrationClientScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: emailController,
                           decoration: const InputDecoration(
                               labelText: 'Эл. почта или номер телефона'),
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: passwordController,
                           decoration:
                               const InputDecoration(labelText: 'Пароль'),
                           textInputAction: TextInputAction.next,
@@ -139,11 +166,13 @@ class _RegistrationClientScreenState extends State<RegistrationClientScreen> {
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: nameController,
                           decoration: const InputDecoration(labelText: 'Имя'),
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: lastNameController,
                           decoration:
                               const InputDecoration(labelText: 'Фамилия'),
                           textInputAction: TextInputAction.next,

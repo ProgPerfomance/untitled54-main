@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/controller/auth_controller.dart';
 
 class RegistrationCompanyContractorScreen extends StatefulWidget {
   RegistrationCompanyContractorScreen({
@@ -25,14 +27,35 @@ class RegistrationCompanyContractorScreen extends StatefulWidget {
 
 class _RegistrationCompanyContractorScreenState
     extends State<RegistrationCompanyContractorScreen> {
-  void newClient() {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+
+  void newClient() async {
     if (widget.isChecked) {
+      try {
+        await AuthDeliveryController(
+          password: passwordController.text,
+          email: emailController.text,
+          name: nameController.text,
+          isCompany: true,
+        ).signUpUser();
+        Navigator.of(context).pushReplacementNamed('/orders');
+      } on FirebaseAuthException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.code,
+            ),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return;
+      }
       Navigator.of(context).pushReplacementNamed('/orders');
     }
   }
-
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +190,7 @@ class _RegistrationCompanyContractorScreenState
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: nameController,
                           decoration: const InputDecoration(
                               labelText: 'Название компании'),
                           textInputAction: TextInputAction.next,
