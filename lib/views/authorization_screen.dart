@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/views/my_orders_screen.dart';
+
+TextEditingController emailEditingController = TextEditingController();
+TextEditingController passwordEditingController = TextEditingController();
 
 // ignore: must_be_immutable
 class AuthorizationScreen extends StatefulWidget {
@@ -21,8 +27,16 @@ class AuthorizationScreen extends StatefulWidget {
 class _AuthorizationScreenState extends State<AuthorizationScreen> {
   @override
   Widget build(BuildContext context) {
-    void saveUser() {
+    void saveUser()async {
+    final UserCredential userCredential =await FirebaseAuth.instance.signInWithEmailAndPassword(email: emailEditingController.text, password: passwordEditingController.text);
+      final User? user = userCredential.user;
+    DocumentSnapshot data= await FirebaseFirestore.instance.collection('users').doc(user!.uid).get();
+    if(data['buyer'] == false) {
       Navigator.of(context).pushReplacementNamed('/orders');
+    }
+    else {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyOrdersScreen(uid: user.uid,)));
+    }
     }
 
     return Scaffold(
@@ -119,12 +133,14 @@ class _AuthorizationScreenState extends State<AuthorizationScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: emailEditingController,
                           decoration: const InputDecoration(
-                              labelText: 'Эл. почта или номер телефона'),
+                              labelText: 'Эл. почта'),
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: passwordEditingController,
                           decoration:
                               const InputDecoration(labelText: 'Пароль'),
                           textInputAction: TextInputAction.next,

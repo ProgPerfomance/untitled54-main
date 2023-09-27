@@ -17,8 +17,9 @@ class AuthBuyerController {
     UserCredential userCredentialemail = await _auth
         .createUserWithEmailAndPassword(email: email, password: password);
     User? user = userCredentialemail.user;
-    _firestore.collection('buyers').doc(user!.uid).set({
-      'uid': user!.uid,
+    _firestore.collection('users').doc(user!.uid).set({
+      'uid': user.uid,
+      'buyer': true,
       'email': email,
       'firstname': name,
       'lastname': lastname
@@ -31,26 +32,52 @@ class AuthDeliveryController {
   final String email;
   final String name;
   final String? lastname;
-  final bool isCompany;
+
   AuthDeliveryController({
     required this.password,
     required this.email,
     required this.name,
     this.lastname,
-    required this.isCompany,
   });
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<void> signUpUser() async {
     UserCredential userCredentialemail = await _auth
         .createUserWithEmailAndPassword(email: email, password: password);
     User? user = userCredentialemail.user;
-    _firestore.collection('delivery').doc(user!.uid).set({
+    _firestore.collection('users').doc(user!.uid).set({
       'uid': user!.uid,
       'email': email,
+      'buyer': false,
       'firstname': name,
       'lastname': lastname,
-      'isCompany': isCompany,
+      'isCompany': false,
     });
   }
+}
+  class AuthDeliveryComponyController {
+  final String password;
+  final String email;
+  final String name;
+  AuthDeliveryComponyController({
+  required this.password,
+  required this.email,
+  required this.name,
+  });
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  Future<void> signUpUser() async {
+  UserCredential userCredentialemail = await _auth
+      .createUserWithEmailAndPassword(email: email, password: password);
+  User? user = userCredentialemail.user;
+  _firestore.collection('users').doc(user!.uid).set({
+  'uid': user!.uid,
+  'email': email,
+  'buyer': false,
+  'firstname': name,
+  'isCompany': true,
+  });
+}
 }

@@ -36,12 +36,11 @@ class MyApp extends StatelessWidget {
       routes: {
         // '': (context) => const HomeScreen(),
         '/orders': (context) => const OrdersScreen(),
-        '/my_orders': (context) => const MyOrdersScreen(),
+        //'/my_orders': (context) => const MyOrdersScreen(),
         '/settings': (context) => const SettingsScreen(),
         '/order-info': (context) => const OrderInfoScreen(),
         '/contractor-info': (context) => const ContractorInfoScreen(),
         '/client-info': (context) => const ClientInfoScreen(),
-        '/create-Order': (context) => CreateOrderScreen(),
         '/authorization': (context) => AuthorizationScreen(),
         '/registration-start': (context) => const RegistrationStartScreen(),
         '/registration-client': (context) => RegistrationClientScreen(),

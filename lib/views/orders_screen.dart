@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +7,7 @@ import '../data/data.dart';
 import '../models/order_screen_models.dart';
 import '../ui/widgets/map_container.dart';
 import '../ui/widgets/widgets.dart';
+import 'my_orders_screen.dart';
 
 class OrdersScreen extends StatelessWidget {
   const OrdersScreen({super.key});
@@ -169,16 +171,41 @@ class OrdersScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
-                  width: double.infinity,
-                  height: 650,
-                  padding: const EdgeInsets.symmetric(horizontal: 35),
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      return OrderItem(order: orders[index]);
-                    },
-                    itemCount: orders.length,
-                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('orders')
+                          .snapshots(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return const Text('что то пошло не так');
+                        }
+
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Material(
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.red,
+                              ),
+                            ),
+                          );
+                        }
+
+                        return SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.7,
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                var anketss = snapshot.data!.docs[index];
+
+                                return MyOrders(
+                                  name: anketss['name'], auc: anketss['auc'], volume: anketss['volume'], mass: anketss['mass'],price: anketss['maxprice'], date: '12.22.2023',);
+                              },
+
+                            ));
+                      }),
                 ),
               ],
             ),
@@ -242,107 +269,107 @@ class District extends StatelessWidget {
   }
 }
 
-class OrderItem extends StatelessWidget {
-  OrderItem({
-    super.key,
-    required this.order,
-    this.onTap,
-  });
+// class OrderItem extends StatelessWidget {
+//   OrderItem({
+//     super.key,
+//     required this.order,
+//     this.onTap,
+//   });
 
-  final Order order;
-  final VoidCallback? onTap;
-  final format = NumberFormat("#,##0.00", "ru_RU");
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: const Color(0xff333238),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(
-              0xffd64743,
-            ),
-            offset: Offset(
-              0.0,
-              5.0,
-            ),
-            blurRadius: 5.0,
-            spreadRadius: 1.0,
-          ), //BoxShadow
-          BoxShadow(
-            color: Colors.white,
-            offset: Offset(0.0, 0.0),
-            blurRadius: 0.0,
-            spreadRadius: 0.0,
-          ), //BoxShadow
-        ],
-      ),
-      margin: const EdgeInsets.all(
-        10,
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: double.infinity,
-            alignment: Alignment.center,
-            child: Text(
-              order.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 20,
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          InfoRow(
-            title: 'Срок до: ',
-            titleDescription: DateFormat('dd.MM.y').format(
-              order.finishDate,
-            ),
-          ),
-          const SizedBox(height: 5),
-          InfoRow(
-            title: 'Предлагаемая цена: ',
-            titleDescription: format.format(order.price).toString(),
-          ),
-          const SizedBox(height: 5),
-          InfoRow(
-            title: 'Аукцион: ',
-            titleDescription: order.isAuction ? 'да' : 'нет',
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: onTap ??
-                () {
-                  Navigator.of(context).pushNamed('/order-info');
-                },
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              alignment: Alignment.center,
-              child: const Text(
-                'Подробнее',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  decoration: TextDecoration.underline,
-                  decorationColor: Color(0xffd64743),
-                  decorationThickness: 2,
-                  color: Colors.transparent,
-                  shadows: [
-                    Shadow(offset: Offset(0, -10), color: Color(0xffdfdee4))
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+  // final Order order;
+  // final VoidCallback? onTap;
+  // final format = NumberFormat("#,##0.00", "ru_RU");
+  //
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(10),
+  //       color: const Color(0xff333238),
+  //       boxShadow: const [
+  //         BoxShadow(
+  //           color: Color(
+  //             0xffd64743,
+  //           ),
+  //           offset: Offset(
+  //             0.0,
+  //             5.0,
+  //           ),
+  //           blurRadius: 5.0,
+  //           spreadRadius: 1.0,
+  //         ), //BoxShadow
+  //         BoxShadow(
+  //           color: Colors.white,
+  //           offset: Offset(0.0, 0.0),
+  //           blurRadius: 0.0,
+  //           spreadRadius: 0.0,
+  //         ), //BoxShadow
+  //       ],
+  //     ),
+  //     margin: const EdgeInsets.all(
+  //       10,
+  //     ),
+  //     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Container(
+  //           width: double.infinity,
+  //           alignment: Alignment.center,
+  //           child: Text(
+  //             order.name,
+  //             style: const TextStyle(
+  //               fontWeight: FontWeight.w300,
+  //               fontSize: 20,
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 10),
+  //         InfoRow(
+  //           title: 'Срок до: ',
+  //           titleDescription: DateFormat('dd.MM.y').format(
+  //             order.finishDate,
+  //           ),
+  //         ),
+  //         const SizedBox(height: 5),
+  //         InfoRow(
+  //           title: 'Предлагаемая цена: ',
+  //           titleDescription: format.format(order.price).toString(),
+  //         ),
+  //         const SizedBox(height: 5),
+  //         InfoRow(
+  //           title: 'Аукцион: ',
+  //           titleDescription: order.isAuction ? 'да' : 'нет',
+  //         ),
+  //         const SizedBox(
+  //           height: 10,
+  //         ),
+  //         InkWell(
+  //           onTap: onTap ??
+  //               () {
+  //                 Navigator.of(context).pushNamed('/order-info');
+  //               },
+  //           borderRadius: BorderRadius.circular(10),
+  //           child: Container(
+  //             alignment: Alignment.center,
+  //             child: const Text(
+  //               'Подробнее',
+  //               style: TextStyle(
+  //                 fontWeight: FontWeight.w600,
+  //                 fontSize: 15,
+  //                 decoration: TextDecoration.underline,
+  //                 decorationColor: Color(0xffd64743),
+  //                 decorationThickness: 2,
+  //                 color: Colors.transparent,
+  //                 shadows: [
+  //                   Shadow(offset: Offset(0, -10), color: Color(0xffdfdee4))
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+//}

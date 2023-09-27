@@ -35,11 +35,11 @@ class _RegistrationCompanyContractorScreenState
   void newClient() async {
     if (widget.isChecked) {
       try {
-        await AuthDeliveryController(
+        await AuthDeliveryComponyController(
           password: passwordController.text,
           email: emailController.text,
           name: nameController.text,
-          isCompany: true,
+
         ).signUpUser();
         Navigator.of(context).pushReplacementNamed('/orders');
       } on FirebaseAuthException catch (e) {

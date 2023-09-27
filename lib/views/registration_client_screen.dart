@@ -154,7 +154,7 @@ class _RegistrationClientScreenState extends State<RegistrationClientScreen> {
                           controller: emailController,
                           decoration: const InputDecoration(
                               labelText: 'Эл. почта или номер телефона'),
-                          textInputAction: TextInputAction.next,
+                         // textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 10),
                         TextFormField(

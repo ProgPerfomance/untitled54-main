@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/views/create_order_screen.dart';
 
 
 import '../data/data.dart';
 import '../ui/widgets/info_row.dart';
 
 class MyOrdersScreen extends StatelessWidget {
+  final uid;
   const MyOrdersScreen({
+    required this.uid,
     super.key,
     this.onTap,
   });
@@ -69,18 +73,40 @@ class MyOrdersScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              Container(
-                // card height * 3 pcs.
-                height: isLandScape ? 230 * 3 : bodyHeight - 125,
-                padding: const EdgeInsets.symmetric(horizontal: 35),
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return MyOrders(
-                        orderFinishedInfo: orderFinishedInfo[index]);
-                  },
-                  itemCount: orderFinishedInfo.length,
-                ),
-              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('users').doc(uid).collection('orders')
+                      .snapshots(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('что то пошло не так');
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Material(
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.red,
+                          ),
+                        ),
+                      );
+                    }
+
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height / 1.7,
+                      child: ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var anketss = snapshot.data!.docs[index];
+
+                                  return MyOrders(
+                                     name: anketss['name'], auc: anketss['auc'], volume: anketss['volume'], mass: anketss['mass'],price: anketss['maxprice'], date: '12.22.2023',);
+                                },
+
+                    ));
+                  }),
+
               const SizedBox(height: 30),
               TextButton(
                 onPressed: onTap ?? () {},
@@ -104,18 +130,33 @@ class MyOrdersScreen extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => CreateOrderScreen(uid: uid,))); },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
 
 class MyOrders extends StatelessWidget {
+  final name;
+  final date;
+  final price;
+  final auc;
+  final mass;
+  final volume;
   MyOrders({
     super.key,
-    required this.orderFinishedInfo,
-    this.onTap,
+    required this.name,
+    required this.price,
+    required this.volume,
+    required this.auc,
+    required this.date,
+    required this.mass,
+    this.onTap, 
   });
 
-  final Map<String, Object> orderFinishedInfo;
+ // final Map<String, Object> orderFinishedInfo;
   final VoidCallback? onTap;
   final format = NumberFormat("#,##0.00", "ru_RU");
 
@@ -159,7 +200,7 @@ class MyOrders extends StatelessWidget {
             width: double.infinity,
             alignment: Alignment.center,
             child: Text(
-              orderFinishedInfo['name'].toString(),
+              name,
               style: const TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 20,
@@ -167,25 +208,30 @@ class MyOrders extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          InfoRow(
-            title: 'Дата выполнения: ',
-            titleDescription: orderFinishedInfo['finishedIn'] != null
-                ? DateFormat('dd.MM.y')
-                    .format(orderFinishedInfo['finishedIn'] as DateTime)
-                : '',
-          ),
+          // InfoRow(
+          //   title: 'Масса: ',
+          //   titleDescription: orderFinishedInfo['finishedIn'] != null
+          //       ? DateFormat('dd.MM.y')
+          //           .format(orderFinishedInfo['finishedIn'] as DateTime)
+          //       : '',
+          // ),
           const SizedBox(height: 5),
           InfoRow(
             title: 'Конечная цена: ',
-            titleDescription: orderFinishedInfo['totalPrice'] != null
-                ? format.format(orderFinishedInfo['totalPrice'])
-                : '0',
+            titleDescription: price
+          ), InfoRow(
+              title: 'Масса: ',
+              titleDescription: mass,
+          ),
+          InfoRow(
+              title: 'Объём: ',
+              titleDescription: volume
           ),
           const SizedBox(height: 5),
           InfoRow(
             title: 'Аукцион: ',
             titleDescription:
-                orderFinishedInfo['isAuction'] as bool ? 'да' : 'нет',
+                auc
           ),
           const SizedBox(
             height: 20,

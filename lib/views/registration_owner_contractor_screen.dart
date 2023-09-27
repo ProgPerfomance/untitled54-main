@@ -39,7 +39,6 @@ class _RegistrationOwnerContractorScreenState
           email: emailController.text,
           name: nameController.text,
           lastname: lastNameController.text,
-          isCompany: true,
         ).signUpUser();
         Navigator.of(context).pushReplacementNamed('/orders');
       } on FirebaseAuthException catch (e) {

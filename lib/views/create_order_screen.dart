@@ -1,8 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+TextEditingController typeEditingController = TextEditingController();
+TextEditingController massEditingController = TextEditingController();
+TextEditingController volumeEditingController = TextEditingController();
+TextEditingController priceEditingController = TextEditingController();
+TextEditingController aukcionEditingController = TextEditingController();
+bool aucbool = false;
 class CreateOrderScreen extends StatefulWidget {
+  final uid;
   CreateOrderScreen({
     super.key,
+    required this.uid,
     this.onTap,
   });
 
@@ -20,11 +29,29 @@ class CreateOrderScreen extends StatefulWidget {
   State<CreateOrderScreen> createState() => _CreateOrderScreenState();
 }
 
-void saveForm() {}
+
 
 class _CreateOrderScreenState extends State<CreateOrderScreen> {
   @override
   Widget build(BuildContext context) {
+    void saveForm() {
+      FirebaseFirestore.instance.collection('orders').add({
+        'name': typeEditingController.text,
+        'mass': massEditingController.text,
+        'volume': volumeEditingController.text,
+        'buyer': 'ff',
+        'maxprice': priceEditingController.text,
+        'auc': aucbool == false ? 'нет' : 'да',
+      }); FirebaseFirestore.instance.collection('users').doc(widget.uid).collection('orders').add({
+        'name': typeEditingController.text,
+        'mass': massEditingController.text,
+        'volume': volumeEditingController.text,
+        'buyer': 'ff',
+        'maxprice': priceEditingController.text,
+        'auc': aucbool == false ? 'нет' : 'да',
+      });
+      Navigator.pop(context);
+    }
     return Scaffold(
       backgroundColor: const Color(0xff28272d),
       appBar: AppBar(
@@ -89,10 +116,10 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 ), //BoxShadow
               ],
             ),
-            child: const IconButton(
+            child:  IconButton(
               onPressed: saveForm,
-              icon: Icon(Icons.save),
-              color: Color(
+              icon: const Icon(Icons.save),
+              color: const Color(
                 0xffd64743,
               ),
             ),
@@ -178,12 +205,14 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: typeEditingController,
                           decoration:
-                              const InputDecoration(labelText: 'Тип груза:'),
+                              const InputDecoration(labelText: ' Название:'),
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: massEditingController,
                           decoration:
                               const InputDecoration(labelText: 'Масса груза:'),
                           textInputAction: TextInputAction.next,
@@ -191,6 +220,7 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: volumeEditingController,
                           decoration:
                               const InputDecoration(labelText: 'Объём груза:'),
                           textInputAction: TextInputAction.next,
@@ -198,16 +228,36 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
+                          controller: priceEditingController,
                           decoration:
                               const InputDecoration(labelText: 'Бюджет:'),
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
-                          decoration:
-                              const InputDecoration(labelText: 'Аукцион'),
-                          textInputAction: TextInputAction.next,
+                        ElevatedButton(
+                          onPressed: () {aucbool = !aucbool;
+                            setState(() {
+                            });},
+                          style: ButtonStyle(
+                              padding: const MaterialStatePropertyAll(
+                                  EdgeInsets.symmetric(horizontal: 60)),
+                              backgroundColor:
+                                  aucbool == false ?
+                              const MaterialStatePropertyAll(Color(0xffd64743)) : const MaterialStatePropertyAll(Colors.green)),
+                          child: const Text(
+                            'Аукцион',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              // color: Color(0xffdfdee4),
+                              shadows: [
+                                Shadow(offset: Offset(0, -5), color: Color(0xffdfdee4))
+                              ],
+                              color: Colors.transparent,
+                              decorationColor: Color(0xff333238),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -215,14 +265,14 @@ class _CreateOrderScreenState extends State<CreateOrderScreen> {
                 ),
               ),
               const SizedBox(height: 40),
-              const ElevatedButton(
+               ElevatedButton(
                 onPressed: saveForm,
-                style: ButtonStyle(
+                style: const ButtonStyle(
                     padding: MaterialStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 60)),
                     backgroundColor:
                         MaterialStatePropertyAll(Color(0xffd64743))),
-                child: Text(
+                child: const Text(
                   'Создать',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
